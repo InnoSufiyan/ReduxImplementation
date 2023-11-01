@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUserPending, getUserSuccess } from '../redux/Slices/userReducer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { loginFailed, loginPending, loginRefresh, loginSuccess } from '../redux/Slices/authSlice';
+import AuthActions from '../redux/middleware/auth';
 
 const Signin = () => {
     const { theme } = useSelector(state => state.theme)
-    const { user, loading } = useSelector(state => state.user)
+    const { user, isLoading, error } = useSelector(state => state.auth)
     const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,28 +22,119 @@ const Signin = () => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    // const loginHandler = async () => {
+    //     if (!email || !password) {
+    //         toast.error('Email and Password are required');
+    //         return;
+    //     }
+    //     // dispatch(loginPending());
+    //     try {
+    //         const apiResponse = await AuthActions.UserLogin({ email, password });
+    //         if (apiResponse.status) {
+    //             const { data, token } = apiResponse;
+    //             const payload = {
+    //                 user: data,
+    //                 token: token,
+    //             };
+    //             console.log("payload", payload)
+    //             localStorage.setItem("dummyusertoken", token)
+    //             navigate('/jobcreatejob');
+    //             // dispatch(loginSuccess(payload));
+    //             // localStorage.setItem('loginUserDetails', JSON.stringify(payload));
+    //             // toast.success('Login Successfully');
+    //             // setTimeout(() => {
+    //             //   navigate('/dashboard');
+    //             // }, 2000)
+    //         } else {
+    //             const payload = {
+    //                 message: 'Invalid User Email or Password',
+    //             };
+    //             dispatch(loginFailed(payload));
+    //         }
+    //     } catch (error) {
+    //         console.log("worked")
+    //         dispatch(loginFailed(error));
+    //     }
+    // };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!email && password) {
+            toast('Email is required');
+            return;
+        }
+        if (email && !password) {
+            toast('Password is required');
+            return;
+        }
+        if (!email || !password) {
+            toast('Email and Password are required');
+            return;
+        }
+
         // handle form submission logic here
-        dispatch(getUserPending())
-        setTimeout(() => {
-            if (email && password) {
+        dispatch(loginPending());
+
+        try {
+            const apiResponse = await AuthActions.UserLogin({ email, password });
+
+
+            console.log(apiResponse, "====>>>apiResponse")
+
+
+            if (apiResponse.status) {
+                const { data, token } = apiResponse;
                 const payload = {
-                    data: {
-                        name: "John Doe",
-                        email: "inno@mail.com",
-                        phoneNumber: 12345555
-                    },
-                    token: "1234567890"
-                }
-                dispatch(getUserSuccess(payload))
-                alert("You have successfully signed in!")
+                    user: data,
+                    token: token,
+                };
+                console.log("payload", payload)
+                localStorage.setItem("dummyusertoken", token)
+                // navigate('/jobcreatejob');
+                dispatch(loginSuccess(payload));
+                localStorage.setItem('loginUserDetails', JSON.stringify(payload));
+                toast.success('Login Successfully');
+                // setTimeout(() => {
+                //   navigate('/dashboard');
+                // }, 2000)
+            } else {
+                const payload = {
+                    message: 'Invalid User Email or Password',
+                };
+                dispatch(loginFailed(payload));
             }
-        }, 2000)
+        } catch (error) {
+            console.log("worked")
+            // dispatch(loginFailed(error));
+        }
+
+
+        // setTimeout(() => {
+        //     if (email && password) {
+        //         const payload = {
+        //             data: {
+        //                 name: "John Doe",
+        //                 email: "inno@mail.com",
+        //                 phoneNumber: 12345555
+        //             },
+        //             token: "1234567890"
+        //         }
+        //         dispatch(getUserSuccess(payload))
+        //         alert("You have successfully signed in!")
+        //     }
+        // }, 2000)
     };
 
+    useEffect(()=> {
+        if(error) {
+            toast(error);
+            dispatch(loginRefresh)
+        }
+    }, [error])
+
     return (
-        loading ? <h1>Loading...</h1> : <div style={{ backgroundColor: theme === "light" ? 'white' : 'black', color: theme === "light" ? 'black' : 'white' }}>
+        isLoading ? <h1>Loading...</h1> : <div style={{ backgroundColor: theme === "light" ? 'white' : 'black', color: theme === "light" ? 'black' : 'white' }}>
+            <ToastContainer />
             <ul>
                 <li><Link to="/">home</Link></li>
                 <li><Link to="/about">about</Link></li>

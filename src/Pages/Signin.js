@@ -109,20 +109,7 @@ const Signin = () => {
         }
 
 
-        // setTimeout(() => {
-        //     if (email && password) {
-        //         const payload = {
-        //             data: {
-        //                 name: "John Doe",
-        //                 email: "inno@mail.com",
-        //                 phoneNumber: 12345555
-        //             },
-        //             token: "1234567890"
-        //         }
-        //         dispatch(getUserSuccess(payload))
-        //         alert("You have successfully signed in!")
-        //     }
-        // }, 2000)
+    
     };
 
     useEffect(()=> {

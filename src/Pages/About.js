@@ -1,10 +1,25 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const About = () => {
     const { theme } = useSelector(state => state.theme)
     const { user } = useSelector(state => state.user)
+
+    useEffect(() => {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+            },
+        };
+
+        fetch('http://localhost:3001/api/yelp?location=SanDiego&sort_by=best_match&limit=20', options)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+    }, [])
     return (
         <div style={{ backgroundColor: theme === "light" ? 'white' : 'black', color: theme === "light" ? 'black' : 'white' }}>
             <ul>

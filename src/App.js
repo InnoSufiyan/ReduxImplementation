@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { store } from './redux/Store';
 import PrivateJobPosting from './Pages/PrivateJobPosting';
 import ProtectedRoutes from './routes/ProtectedRoutes';
+import JobAd from './Pages/JobAd';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/about" element={<About />} />
+          <Route path="/jobAd" element={<JobAd />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/privateJobPost" element={<PrivateJobPosting />} />
           </Route>

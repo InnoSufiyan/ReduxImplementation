@@ -20,6 +20,7 @@ const Home = () => {
                 <li><Link to="/signup">Signup</Link></li>
                 <li><Link to="/signin">Signin</Link></li>
                 <li><Link to="/privateJobPost">Job Posting</Link></li>
+                <li><Link to="/jobAd">Job Ad</Link></li>
                 <li>{user?.name} logged in</li>
             </ul>
             <h1>Welcome to my website!</h1>

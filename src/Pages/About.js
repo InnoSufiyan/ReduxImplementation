@@ -15,7 +15,7 @@ const About = () => {
             },
         };
 
-        fetch('http://localhost:3001/api/yelp?location=SanDiego&sort_by=best_match&limit=20', options)
+        fetch('https://maroon-shorts.cyclic.cloud/api/jobAds/all', options)
             .then(response => response.json())
             .then(response => console.log(response))
             .catch(err => console.error(err));

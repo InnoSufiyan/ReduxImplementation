@@ -3,6 +3,8 @@ import axios from 'axios';
 async function CallApi(apiOptions) {
     let apiResponse = {};
 
+    console.log(apiOptions, "apiOptions")
+
     const config = {
         method: apiOptions.method,
         url: apiOptions.endpoint,
@@ -12,9 +14,11 @@ async function CallApi(apiOptions) {
 
     await axios(config)
         .then((result) => {
+            console.log(result, "===>>> result")
             apiResponse = result;
         })
         .catch((error) => {
+            console.log(error, "===>>> error")
             apiResponse = error;
 
             const { status } = error.response;

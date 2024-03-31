@@ -1,20 +1,15 @@
-import baseUrl  from '../../config/constant.js';
+import baseUrl from '../../config/constant.js';
 import Utils from '../utils';
 
-const UserLogin = (payload) => {  //email, password
+const GetJobs = (limit) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const { email, password } = payload;
             const apiOptions = {
-                endpoint: `${baseUrl}/auth/login`,
+                endpoint: `${baseUrl}/jobAds/all?limit=${limit}&pageNo=1&keyWord=&category=`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
-                data: {
-                    email,
-                    password,
-                },
+                method: 'GET'
             };
             const apiResponse = await Utils.CallApi(apiOptions);
             if (apiResponse.status === 200) {
@@ -30,7 +25,7 @@ const UserLogin = (payload) => {  //email, password
 
 
 
-const UserSignup = (payload) => {
+const GetJob = (payload) => {
     return new Promise(async (resolve, reject) => {
         try {
             const {
@@ -69,9 +64,9 @@ const UserSignup = (payload) => {
     });
 };
 
-const AuthActions = {
-    UserLogin,
-    UserSignup,
+const JobsActions = {
+    GetJobs,
+    GetJob,
 };
 
-export default AuthActions;
+export default JobsActions;

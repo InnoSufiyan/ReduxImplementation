@@ -5,7 +5,7 @@ const GetJobs = (limit) => {
     return new Promise(async (resolve, reject) => {
         try {
             const apiOptions = {
-                endpoint: `${baseUrl}/jobAds/all?limit=${limit}&pageNo=1&keyWord=&category=`,
+                endpoint: `${baseUrl}/jobAds/all?limit=10&pageNo=1&keyWord=&category=&isPending=false`,
                 headers: {
                     'Content-Type': 'application/json',
                 },

@@ -1,4 +1,4 @@
-const baseUrl = "https://backend-prod.app.hiringmine.com/api"
+const baseUrl = "https://hiringmine-railway-development.up.railway.app/api"
 // const baseUrl = "http://localhost:5000/api"
 
 export default baseUrl
